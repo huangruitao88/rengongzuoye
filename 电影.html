@@ -1,0 +1,1136 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎬 小小电影</title>
+    <style>
+        :root {
+            --bg: #0a0a0f;
+            --surface: #141420;
+            --surface2: #1a1a2e;
+            --gold: #f0c060;
+            --gold-dark: #c8963e;
+            --accent: #e8596b;
+            --text: #e0dcd0;
+            --text-dim: #908b7a;
+            --text-bright: #faf7f0;
+            --border: #2a2835;
+            --shadow-lg: 0 20px 50px rgba(0, 0, 0, 0.6);
+            --shadow-card: 0 8px 28px rgba(0, 0, 0, 0.45);
+            --radius-lg: 20px;
+            --radius-md: 14px;
+            --radius-sm: 10px;
+            --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', 'Noto Sans SC', sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            min-height: 100vh;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* 背景纹理 */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background:
+                radial-gradient(ellipse at 20% 20%, rgba(232, 89, 107, 0.04) 0%, transparent 55%),
+                radial-gradient(ellipse at 75% 60%, rgba(240, 192, 96, 0.05) 0%, transparent 55%),
+                radial-gradient(ellipse at 50% 80%, rgba(100, 130, 220, 0.03) 0%, transparent 55%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .app-container {
+            position: relative;
+            z-index: 1;
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 20px 24px 60px;
+        }
+
+        /* ========== Header ========== */
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 20px;
+            padding: 20px 0 30px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(10, 10, 15, 0.82);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid transparent;
+            transition: border-color 0.4s;
+        }
+        .header.scrolled {
+            border-bottom-color: var(--border);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.7rem;
+            font-weight: 800;
+            letter-spacing: 0.03em;
+            color: var(--text-bright);
+            user-select: none;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        .logo:hover {
+            color: var(--gold);
+        }
+        .logo-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: var(--radius-sm);
+            background: linear-gradient(135deg, var(--gold), var(--accent));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            box-shadow: 0 6px 20px rgba(240, 192, 96, 0.3);
+            flex-shrink: 0;
+        }
+
+        .search-box {
+            display: flex;
+            align-items: center;
+            background: var(--surface2);
+            border-radius: 50px;
+            padding: 6px 8px 6px 18px;
+            border: 2px solid transparent;
+            transition: var(--transition);
+            gap: 6px;
+            flex: 1;
+            max-width: 380px;
+            min-width: 220px;
+        }
+        .search-box:focus-within {
+            border-color: var(--gold);
+            box-shadow: 0 0 0 6px rgba(240, 192, 96, 0.08);
+            background: var(--surface);
+        }
+        .search-box input {
+            background: transparent;
+            border: none;
+            outline: none;
+            color: var(--text-bright);
+            font-size: 0.95rem;
+            width: 100%;
+            padding: 8px 0;
+            font-family: inherit;
+        }
+        .search-box input::placeholder {
+            color: var(--text-dim);
+            opacity: 0.7;
+        }
+        .search-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: none;
+            background: var(--gold);
+            color: #1a1a10;
+            cursor: pointer;
+            font-size: 1.1rem;
+            flex-shrink: 0;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .search-btn:hover {
+            background: #f5d080;
+            transform: scale(1.05);
+            box-shadow: 0 4px 16px rgba(240, 192, 96, 0.35);
+        }
+
+        /* ========== 分类标签 ========== */
+        .category-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 32px;
+            padding-top: 8px;
+        }
+        .cat-tag {
+            padding: 10px 20px;
+            border-radius: 50px;
+            border: 1.5px solid var(--border);
+            background: transparent;
+            color: var(--text-dim);
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: var(--transition);
+            white-space: nowrap;
+            letter-spacing: 0.02em;
+            font-family: inherit;
+            user-select: none;
+        }
+        .cat-tag:hover {
+            border-color: #5a5560;
+            color: var(--text);
+            background: rgba(255, 255, 255, 0.02);
+        }
+        .cat-tag.active {
+            background: var(--gold);
+            color: #1a1a10;
+            border-color: var(--gold);
+            font-weight: 600;
+            box-shadow: 0 4px 16px rgba(240, 192, 96, 0.3);
+            transform: translateY(-1px);
+        }
+        .cat-count {
+            font-size: 0.75rem;
+            opacity: 0.7;
+            margin-left: 4px;
+        }
+        .cat-tag.active .cat-count {
+            opacity: 1;
+        }
+
+        /* ========== 统计条 ========== */
+        .stats-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 24px;
+            font-size: 0.88rem;
+            color: var(--text-dim);
+        }
+        .stats-bar strong {
+            color: var(--gold);
+            font-weight: 600;
+        }
+        .sort-btn {
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            color: var(--text);
+            padding: 8px 16px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: var(--transition);
+            font-family: inherit;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .sort-btn:hover {
+            border-color: #5a5560;
+            background: var(--surface);
+        }
+        .sort-btn.active-sort {
+            border-color: var(--gold);
+            color: var(--gold);
+        }
+
+        /* ========== 电影网格 ========== */
+        .movie-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 24px;
+        }
+
+        .movie-card {
+            background: var(--surface);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            cursor: pointer;
+            transition: var(--transition);
+            border: 1px solid var(--border);
+            position: relative;
+            box-shadow: var(--shadow-card);
+            display: flex;
+            flex-direction: column;
+        }
+        .movie-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-lg), 0 0 0 1px rgba(240, 192, 96, 0.15);
+            border-color: #3a3545;
+        }
+        .movie-card:active {
+            transform: scale(0.98);
+        }
+
+        /* 海报区域 */
+        .movie-poster {
+            position: relative;
+            aspect-ratio: 2 / 3;
+            overflow: hidden;
+            background: var(--surface2);
+            flex-shrink: 0;
+        }
+        .movie-poster img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            display: block;
+        }
+        .movie-card:hover .movie-poster img {
+            transform: scale(1.07);
+        }
+        .poster-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(10, 10, 15, 0.9) 0%, transparent 50%, transparent 100%);
+            pointer-events: none;
+        }
+        .movie-rating-badge {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            color: var(--gold);
+            padding: 6px 12px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 0.85rem;
+            letter-spacing: 0.03em;
+            z-index: 2;
+            border: 1px solid rgba(240, 192, 96, 0.3);
+        }
+        .movie-rating-badge .star {
+            margin-right: 3px;
+        }
+
+        /* 信息区域 */
+        .movie-info {
+            padding: 16px 18px 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            flex: 1;
+        }
+        .movie-title {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: var(--text-bright);
+            letter-spacing: 0.02em;
+            line-height: 1.3;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        .movie-meta {
+            display: flex;
+            gap: 12px;
+            font-size: 0.8rem;
+            color: var(--text-dim);
+            flex-wrap: wrap;
+        }
+        .movie-meta span {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .movie-desc {
+            font-size: 0.84rem;
+            color: var(--text-dim);
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            line-height: 1.5;
+        }
+        .movie-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: auto;
+            padding-top: 4px;
+        }
+        .movie-tag {
+            font-size: 0.73rem;
+            padding: 4px 10px;
+            border-radius: 50px;
+            background: var(--surface2);
+            color: var(--text-dim);
+            white-space: nowrap;
+            letter-spacing: 0.02em;
+            border: 1px solid transparent;
+            transition: var(--transition);
+        }
+        .movie-card:hover .movie-tag {
+            border-color: #3a3545;
+        }
+        .movie-tag.genre {
+            background: rgba(232, 89, 107, 0.12);
+            color: #f0909e;
+            border-color: rgba(232, 89, 107, 0.25);
+        }
+
+        /* ========== 详情弹窗 ========== */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 999;
+            background: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.35s ease;
+        }
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .modal-dialog {
+            background: var(--surface);
+            border-radius: var(--radius-lg);
+            max-width: 700px;
+            width: 100%;
+            max-height: 85vh;
+            overflow-y: auto;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid var(--border);
+            position: relative;
+            transform: translateY(30px) scale(0.96);
+            transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .modal-overlay.active .modal-dialog {
+            transform: translateY(0) scale(1);
+        }
+        .modal-close {
+            position: sticky;
+            top: 12px;
+            float: right;
+            z-index: 10;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: none;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(8px);
+            color: #fff;
+            font-size: 1.3rem;
+            cursor: pointer;
+            margin: 8px 12px;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .modal-close:hover {
+            background: rgba(232, 89, 107, 0.7);
+            transform: rotate(90deg);
+        }
+        .modal-poster {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            object-fit: cover;
+            border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+            display: block;
+        }
+        .modal-body {
+            padding: 24px 28px 32px;
+        }
+        .modal-body h2 {
+            font-size: 1.6rem;
+            color: var(--text-bright);
+            margin-bottom: 8px;
+            letter-spacing: 0.03em;
+        }
+        .modal-body .modal-meta {
+            color: var(--text-dim);
+            font-size: 0.88rem;
+            margin-bottom: 14px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 14px;
+        }
+        .modal-body .modal-desc {
+            color: var(--text);
+            line-height: 1.8;
+            font-size: 0.95rem;
+            margin-bottom: 16px;
+        }
+        .modal-highlight {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            background: var(--surface2);
+            border-radius: var(--radius-md);
+            padding: 16px 20px;
+            border: 1px solid var(--border);
+        }
+        .modal-highlight .hl-item {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+        .hl-label {
+            font-size: 0.73rem;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+        .hl-value {
+            font-weight: 600;
+            color: var(--gold);
+            font-size: 0.95rem;
+        }
+
+        /* ========== 空状态 ========== */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-dim);
+            grid-column: 1 / -1;
+        }
+        .empty-state .empty-icon {
+            font-size: 4rem;
+            margin-bottom: 16px;
+            opacity: 0.6;
+        }
+        .empty-state p {
+            font-size: 1rem;
+            letter-spacing: 0.03em;
+        }
+
+        /* ========== Footer ========== */
+        .footer {
+            text-align: center;
+            padding: 40px 20px 20px;
+            color: var(--text-dim);
+            font-size: 0.8rem;
+            letter-spacing: 0.03em;
+            opacity: 0.7;
+        }
+        .footer span {
+            color: var(--gold);
+        }
+
+        /* ========== 滚动条 ========== */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #3a3545;
+            border-radius: 20px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #5a5560;
+        }
+
+        /* ========== 响应式 ========== */
+        @media (max-width: 768px) {
+            .header {
+                padding: 12px 0 20px;
+                gap: 12px;
+            }
+            .logo {
+                font-size: 1.35rem;
+            }
+            .logo-icon {
+                width: 36px;
+                height: 36px;
+                font-size: 1.2rem;
+            }
+            .search-box {
+                max-width: 100%;
+                order: 3;
+                flex: 1 1 100%;
+            }
+            .movie-grid {
+                grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+                gap: 16px;
+            }
+            .movie-info {
+                padding: 12px 14px 16px;
+            }
+            .movie-title {
+                font-size: 1rem;
+            }
+            .cat-tag {
+                padding: 8px 14px;
+                font-size: 0.8rem;
+            }
+            .modal-body {
+                padding: 16px 18px 24px;
+            }
+            .modal-body h2 {
+                font-size: 1.3rem;
+            }
+        }
+        @media (max-width: 420px) {
+            .movie-grid {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+                gap: 12px;
+            }
+            .movie-poster {
+                aspect-ratio: 2 / 3;
+            }
+            .app-container {
+                padding: 10px 12px 40px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="header" id="header">
+            <div class="logo" onclick="resetAll()">
+                <div class="logo-icon">🎬</div>
+                小小电影驿站
+            </div>
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="搜索电影名称、导演、类型..." oninput="handleSearch()">
+                <button class="search-btn" onclick="handleSearch()" aria-label="搜索">
+                    🔍
+                </button>
+            </div>
+        </header>
+
+        <!-- 分类标签 -->
+        <div class="category-tabs" id="categoryTabs">
+            <button class="cat-tag active" data-category="all">全部<span class="cat-count"></span></button>
+            <button class="cat-tag" data-category="动作">动作<span class="cat-count"></span></button>
+            <button class="cat-tag" data-category="科幻">科幻<span class="cat-count"></span></button>
+            <button class="cat-tag" data-category="爱情">爱情<span class="cat-count"></span></button>
+            <button class="cat-tag" data-category="动画">动画<span class="cat-count"></span></button>
+            <button class="cat-tag" data-category="悬疑">悬疑<span class="cat-count"></span></button>
+            <button class="cat-tag" data-category="喜剧">喜剧<span class="cat-count"></span></button>
+            <button class="cat-tag" data-category="剧情">剧情<span class="cat-count"></span></button>
+        </div>
+
+        <!-- 统计条 -->
+        <div class="stats-bar">
+            <span>共 <strong id="movieCount">0</strong> 部电影</span>
+            <button class="sort-btn" id="sortBtn" onclick="toggleSort()">
+                📊 按评分排序
+            </button>
+        </div>
+
+        <!-- 电影网格 -->
+        <div class="movie-grid" id="movieGrid"></div>
+
+        <!-- 空状态 -->
+        <div class="empty-state" id="emptyState" style="display:none;">
+            <div class="empty-icon">🎞️</div>
+            <p>没有找到匹配的电影</p>
+            <p style="font-size:0.82rem;margin-top:4px;">试试其他关键词吧～</p>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <p>✨ 小小电影驿站 · 发现好电影 · <span>用心推介每一部佳作</span> ✨</p>
+        </div>
+    </div>
+
+    <!-- 详情弹窗 -->
+    <div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+        <div class="modal-dialog" onclick="event.stopPropagation()">
+            <button class="modal-close" onclick="closeModal()">✕</button>
+            <img class="modal-poster" id="modalPoster" src="" alt="">
+            <div class="modal-body">
+                <h2 id="modalTitle"></h2>
+                <div class="modal-meta" id="modalMeta"></div>
+                <p class="modal-desc" id="modalDesc"></p>
+                <div class="modal-highlight" id="modalHighlight"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ==================== 电影数据库 ====================
+        const movies = [{
+            id: 1,
+            title: '星际穿越',
+            originalTitle: 'Interstellar',
+            year: 2014,
+            rating: 9.4,
+            director: '克里斯托弗·诺兰',
+            category: '科幻',
+            duration: '169分钟',
+            country: '美国 / 英国',
+            poster: 'https://picsum.photos/seed/interstellar/400/600',
+            banner: 'https://picsum.photos/seed/interstellar-banner/900/400',
+            desc: '在地球资源逐渐枯竭的未来，前NASA宇航员库珀被选中参加一项穿越虫洞的星际任务，为人类寻找新的家园。在浩瀚宇宙与时间扭曲中，父女之间的情感成为跨越维度的纽带。诺兰以严谨的科学态度与宏大的视觉奇观，呈现了一部关于爱与时间的太空史诗。',
+            tags: ['太空', '时间旅行', '亲情', '硬科幻'],
+            highlight: { 'IMDb': '8.7', '豆瓣': '9.4', '奥斯卡': '最佳视觉效果' }
+        }, {
+            id: 2,
+            title: '肖申克的救赎',
+            originalTitle: 'The Shawshank Redemption',
+            year: 1994,
+            rating: 9.7,
+            director: '弗兰克·德拉邦特',
+            category: '剧情',
+            duration: '142分钟',
+            country: '美国',
+            poster: 'https://picsum.photos/seed/shawshank/400/600',
+            banner: 'https://picsum.photos/seed/shawshank-banner/900/400',
+            desc: '银行家安迪因被误判谋杀妻子而关进肖申克监狱。在漫长的牢狱生涯中，他用智慧与毅力赢得了尊重，也悄然筹划着惊天越狱。影片深刻探讨了希望、自由与救赎的力量，被誉为影史最伟大的电影之一。',
+            tags: ['监狱', '希望', '友情', '经典'],
+            highlight: { 'IMDb': '9.3', '豆瓣': '9.7', '地位': '影史TOP1' }
+        }, {
+            id: 3,
+            title: '你的名字。',
+            originalTitle: '君の名は。',
+            year: 2016,
+            rating: 8.8,
+            director: '新海诚',
+            category: '动画',
+            duration: '106分钟',
+            country: '日本',
+            poster: 'https://picsum.photos/seed/yourname/400/600',
+            banner: 'https://picsum.photos/seed/yourname-banner/900/400',
+            desc: '生活在乡下的三叶与东京高中生泷，在某天醒来后发现自己与对方互换了身体。两人在适应对方生活的过程中逐渐产生情愫，却发现彼此之间横亘着时空的阻隔。新海诚用绝美画面讲述了一段跨越时空的纯爱故事。',
+            tags: ['纯爱', '时空', '青春', '催泪'],
+            highlight: { '豆瓣': '8.8', '票房': '全球3.6亿美元', '导演': '新海诚代表作' }
+        }, {
+            id: 4,
+            title: '盗梦空间',
+            originalTitle: 'Inception',
+            year: 2010,
+            rating: 9.3,
+            director: '克里斯托弗·诺兰',
+            category: '科幻',
+            duration: '148分钟',
+            country: '美国 / 英国',
+            poster: 'https://picsum.photos/seed/inception/400/600',
+            banner: 'https://picsum.photos/seed/inception-banner/900/400',
+            desc: '道姆·柯布是一名技艺高超的"盗梦者"，能够潜入他人梦境窃取机密。他接到一项看似不可能的任务——在目标人物的潜意识中植入一个想法。层层嵌套的梦境、令人窒息的悬念，诺兰再次挑战观众的大脑极限。',
+            tags: ['梦境', '悬疑', '动作', '烧脑'],
+            highlight: { 'IMDb': '8.8', '豆瓣': '9.3', '奥斯卡': '4项大奖' }
+        }, {
+            id: 5,
+            title: '泰坦尼克号',
+            originalTitle: 'Titanic',
+            year: 1997,
+            rating: 9.1,
+            director: '詹姆斯·卡梅隆',
+            category: '爱情',
+            duration: '194分钟',
+            country: '美国',
+            poster: 'https://picsum.photos/seed/titanic/400/600',
+            banner: 'https://picsum.photos/seed/titanic-banner/900/400',
+            desc: '1912年，穷画家杰克与贵族少女露丝在泰坦尼克号上相遇相恋。当巨轮撞上冰山沉没时，杰克把生的机会留给了露丝。这段跨越阶级的爱情故事，伴随着席琳·迪翁的歌声，成为影史永恒的经典。',
+            tags: ['灾难', '浪漫', '经典', '史诗'],
+            highlight: { 'IMDb': '7.9', '豆瓣': '9.1', '奥斯卡': '11项大奖' }
+        }, {
+            id: 6,
+            title: '疯狂动物城',
+            originalTitle: 'Zootopia',
+            year: 2016,
+            rating: 8.9,
+            director: '拜伦·霍华德 / 瑞奇·摩尔',
+            category: '动画',
+            duration: '109分钟',
+            country: '美国',
+            poster: 'https://picsum.photos/seed/zootopia/400/600',
+            banner: 'https://picsum.photos/seed/zootopia-banner/900/400',
+            desc: '在动物城这个哺乳动物和谐共处的现代都市里，小兔子朱迪实现了当警察的梦想。她与狐狸尼克搭档破获了一桩神秘案件，揭开了城市背后关于偏见与包容的真相。迪士尼用欢乐动画传递深刻社会议题。',
+            tags: ['冒险', '喜剧', '社会', '迪士尼'],
+            highlight: { '豆瓣': '8.9', '奥斯卡': '最佳动画长片', '票房': '全球10亿美元' }
+        }, {
+            id: 7,
+            title: '看不见的客人',
+            originalTitle: 'Contratiempo',
+            year: 2016,
+            rating: 9.0,
+            director: '奥里奥尔·保罗',
+            category: '悬疑',
+            duration: '106分钟',
+            country: '西班牙',
+            poster: 'https://picsum.photos/seed/contratiempo/400/600',
+            banner: 'https://picsum.photos/seed/contratiempo-banner/900/400',
+            desc: '成功企业家阿德里安被指控谋杀情人，他请来顶级律师为自己辩护。在开庭前夜的对话中，真相与谎言层层交织，每一个细节都暗藏伏笔。西班牙悬疑片的巅峰之作，反转再反转，让人拍案叫绝。',
+            tags: ['反转', '犯罪', '推理', '西班牙'],
+            highlight: { '豆瓣': '9.0', 'IMDb': '8.1', '口碑': '悬疑神作' }
+        }, {
+            id: 8,
+            title: '谍影重重',
+            originalTitle: 'The Bourne Identity',
+            year: 2002,
+            rating: 8.6,
+            director: '道格·里曼',
+            category: '动作',
+            duration: '119分钟',
+            country: '美国 / 德国',
+            poster: 'https://picsum.photos/seed/bourne/400/600',
+            banner: 'https://picsum.photos/seed/bourne-banner/900/400',
+            desc: '一名失忆的男子被渔民从海中救起，身上唯一的线索是一个瑞士银行保险箱号码。在追寻身份的过程中，他发现自己拥有惊人的格斗技能，而CIA正对他展开全球追杀。重新定义了现代间谍动作片的标杆之作。',
+            tags: ['间谍', '失忆', '追车', '近身格斗'],
+            highlight: { 'IMDb': '7.9', '豆瓣': '8.6', '系列': '五部曲开篇' }
+        }, {
+            id: 9,
+            title: '楚门的世界',
+            originalTitle: 'The Truman Show',
+            year: 1998,
+            rating: 9.2,
+            director: '彼得·威尔',
+            category: '剧情',
+            duration: '103分钟',
+            country: '美国',
+            poster: 'https://picsum.photos/seed/truman/400/600',
+            banner: 'https://picsum.photos/seed/truman-banner/900/400',
+            desc: '楚门从出生起就生活在一个巨大的摄影棚中，他的一切都是被设计好的真人秀。当他开始怀疑世界的真实性，决心冲破虚假的牢笼时，全世界都在注视着他。金·凯瑞的演技巅峰，对媒体时代的深刻寓言。',
+            tags: ['讽刺', '自由', '媒体', '经典'],
+            highlight: { 'IMDb': '8.2', '豆瓣': '9.2', '意义': '媒体批判经典' }
+        }, {
+            id: 10,
+            title: '功夫',
+            originalTitle: 'Kung Fu Hustle',
+            year: 2004,
+            rating: 8.8,
+            director: '周星驰',
+            category: '喜剧',
+            duration: '99分钟',
+            country: '中国香港',
+            poster: 'https://picsum.photos/seed/kungfuhustle/400/600',
+            banner: 'https://picsum.photos/seed/kungfuhustle-banner/900/400',
+            desc: '小混混阿星误闯猪笼城寨，意外卷入了斧头帮与隐藏高手之间的对决。周星驰将无厘头喜剧与功夫元素完美融合，创造出华语电影史上最具想象力的动作喜剧。包租婆、火云邪神等角色已成为文化符号。',
+            tags: ['功夫', '无厘头', '周星驰', '华语经典'],
+            highlight: { '豆瓣': '8.8', 'IMDb': '7.7', '金像奖': '最佳影片' }
+        }, {
+            id: 11,
+            title: '千与千寻',
+            originalTitle: '千と千尋の神隠し',
+            year: 2001,
+            rating: 9.4,
+            director: '宫崎骏',
+            category: '动画',
+            duration: '125分钟',
+            country: '日本',
+            poster: 'https://picsum.photos/seed/spiritedaway/400/600',
+            banner: 'https://picsum.photos/seed/spiritedaway-banner/900/400',
+            desc: '少女千寻随父母误入神灵世界，父母因贪吃变成了猪。为了拯救家人，千寻在汤屋中工作，经历了成长与勇气的考验。宫崎骏的巅峰之作，荣获奥斯卡最佳动画长片，每一帧都充满奇幻与温情。',
+            tags: ['奇幻', '成长', '宫崎骏', '奥斯卡'],
+            highlight: { '豆瓣': '9.4', '奥斯卡': '最佳动画长片', '票房': '日本影史冠军' }
+        }, {
+            id: 12,
+            title: '爱乐之城',
+            originalTitle: 'La La Land',
+            year: 2016,
+            rating: 8.4,
+            director: '达米恩·查泽雷',
+            category: '爱情',
+            duration: '128分钟',
+            country: '美国',
+            poster: 'https://picsum.photos/seed/lalaland/400/600',
+            banner: 'https://picsum.photos/seed/lalaland-banner/900/400',
+            desc: '在洛杉矶，爵士钢琴家塞巴斯蒂安与怀揣演员梦的米娅相遇相爱。他们在追梦路上彼此鼓励，却也面临着现实与理想的抉择。一段令人心醉又心碎的爱情故事，用歌舞与色彩致敬了好莱坞黄金时代。',
+            tags: ['歌舞', '梦想', '浪漫', '奥斯卡'],
+            highlight: { '豆瓣': '8.4', '奥斯卡': '6项大奖', '配乐': '经典原声' }
+        }, {
+            id: 13,
+            title: '搏击俱乐部',
+            originalTitle: 'Fight Club',
+            year: 1999,
+            rating: 9.0,
+            director: '大卫·芬奇',
+            category: '悬疑',
+            duration: '139分钟',
+            country: '美国',
+            poster: 'https://picsum.photos/seed/fightclub/400/600',
+            banner: 'https://picsum.photos/seed/fightclub-banner/900/400',
+            desc: '一个饱受失眠折磨的白领遇到了肥皂商人泰勒，两人创立了一个秘密的地下搏击俱乐部。随着俱乐部规模不断扩大，事情逐渐走向失控。大卫·芬奇的cult经典，对消费主义和现代男性困境的锋利剖析。',
+            tags: ['心理', '反转', 'cult', '大卫·芬奇'],
+            highlight: { 'IMDb': '8.8', '豆瓣': '9.0', '风格': 'Cult经典' }
+        }, {
+            id: 14,
+            title: '速度与激情7',
+            originalTitle: 'Furious 7',
+            year: 2015,
+            rating: 8.0,
+            director: '温子仁',
+            category: '动作',
+            duration: '137分钟',
+            country: '美国',
+            poster: 'https://picsum.photos/seed/furious7/400/600',
+            banner: 'https://picsum.photos/seed/furious7-banner/900/400',
+            desc: '多米尼克一家面临最危险的对手——德卡特·肖。从阿布扎比摩天大楼间的飞车穿越，到洛杉矶街头的终极决战，动作场面不断升级。片尾对保罗·沃克的致敬让无数观众泪目，See You Again成为永恒的旋律。',
+            tags: ['赛车', '动作', '情怀', '保罗·沃克'],
+            highlight: { '豆瓣': '8.0', '票房': '全球15亿美元', '主题曲': 'See You Again' }
+        }, {
+            id: 15,
+            title: '让子弹飞',
+            originalTitle: 'Let the Bullets Fly',
+            year: 2010,
+            rating: 9.0,
+            director: '姜文',
+            category: '剧情',
+            duration: '132分钟',
+            country: '中国大陆',
+            poster: 'https://picsum.photos/seed/letbulletsfly/400/600',
+            banner: 'https://picsum.photos/seed/letbulletsfly-banner/900/400',
+            desc: '北洋年间，悍匪张牧之劫了马拉火车，冒充县长赴鹅城上任。他与当地恶霸黄四郎展开了一场斗智斗勇的较量。姜文用黑色幽默与凌厉节奏，拍出了一部让观众反复解读的华语神作。',
+            tags: ['黑色幽默', '西部', '姜文', '华语神作'],
+            highlight: { '豆瓣': '9.0', '台词': '经典无数', '风格': '站着把钱挣了' }
+        }, {
+    id: 16,
+    title: '奥本海默',
+    originalTitle: 'Oppenheimer',
+    year: 2023,
+    rating: 8.8,
+    director: '克里斯托弗·诺兰',
+    category: '剧情',
+    duration: '180分钟',
+    country: '美国 / 英国',
+    poster: 'https://picsum.photos/seed/oppenheimer/400/600',
+    banner: 'https://picsum.photos/seed/oppenheimer-banner/900/400',
+    desc: '聚焦“原子弹之父”罗伯特·奥本海默的一生，讲述他领导曼哈顿计划以及战后遭遇的政治迫害。诺兰用IMAX胶片呈现了核爆的震撼与人物内心的挣扎。',
+    tags: ['传记', '历史', '核爆', '诺兰'],
+    highlight: { 'IMDb': '8.3', '豆瓣': '8.8', '奥斯卡': '7项大奖' }
+}];
+
+        // ==================== 状态管理 ====================
+        let currentCategory = 'all';
+        let searchQuery = '';
+        let sortByRating = false;
+
+        // ==================== 初始化 ====================
+        function init() {
+            updateCategoryCounts();
+            renderMovies();
+            // 监听滚动以改变header样式
+            window.addEventListener('scroll', () => {
+                const header = document.getElementById('header');
+                if (window.scrollY > 30) {
+                    header.classList.add('scrolled');
+                } else {
+                    header.classList.remove('scrolled');
+                }
+            });
+            // 回车搜索
+            document.getElementById('searchInput').addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') handleSearch();
+            });
+        }
+
+        // ==================== 更新分类计数 ====================
+        function updateCategoryCounts() {
+            const tabs = document.querySelectorAll('.cat-tag');
+            tabs.forEach(tab => {
+                const cat = tab.dataset.category;
+                const countSpan = tab.querySelector('.cat-count');
+                if (cat === 'all') {
+                    countSpan.textContent = `(${movies.length})`;
+                } else {
+                    const count = movies.filter(m => m.category === cat).length;
+                    countSpan.textContent = `(${count})`;
+                }
+            });
+        }
+
+        // ==================== 筛选与排序 ====================
+        function getFilteredMovies() {
+            let filtered = [...movies];
+
+            // 分类筛选
+            if (currentCategory !== 'all') {
+                filtered = filtered.filter(m => m.category === currentCategory);
+            }
+
+            // 搜索筛选
+            if (searchQuery.trim()) {
+                const q = searchQuery.trim().toLowerCase();
+                filtered = filtered.filter(m =>
+                    m.title.toLowerCase().includes(q) ||
+                    m.director.toLowerCase().includes(q) ||
+                    m.category.toLowerCase().includes(q) ||
+                    m.tags.some(t => t.toLowerCase().includes(q)) ||
+                    m.desc.toLowerCase().includes(q) ||
+                    (m.originalTitle && m.originalTitle.toLowerCase().includes(q))
+                );
+            }
+
+            // 排序
+            if (sortByRating) {
+                filtered.sort((a, b) => b.rating - a.rating);
+            } else {
+                filtered.sort((a, b) => b.year - a.year); // 默认按年份降序
+            }
+
+            return filtered;
+        }
+
+        // ==================== 渲染电影卡片 ====================
+        function renderMovies() {
+            const grid = document.getElementById('movieGrid');
+            const emptyState = document.getElementById('emptyState');
+            const filtered = getFilteredMovies();
+
+            document.getElementById('movieCount').textContent = filtered.length;
+
+            if (filtered.length === 0) {
+                grid.innerHTML = '';
+                emptyState.style.display = 'block';
+            } else {
+                emptyState.style.display = 'none';
+                grid.innerHTML = filtered.map(m => `
+                    <div class="movie-card" onclick="openMovieDetail(${m.id})" title="${m.title} - 点击查看详情">
+                        <div class="movie-poster">
+                            <img src="${m.poster}" alt="${m.title}" loading="lazy" onerror="this.src='https://picsum.photos/seed/fallback${m.id}/400/600'">
+                            <div class="poster-overlay"></div>
+                            <div class="movie-rating-badge">
+                                <span class="star">⭐</span>${m.rating}
+                            </div>
+                        </div>
+                        <div class="movie-info">
+                            <div class="movie-title">${m.title}</div>
+                            <div class="movie-meta">
+                                <span>📅 ${m.year}</span>
+                                <span>🎬 ${m.director}</span>
+                            </div>
+                            <div class="movie-desc">${m.desc}</div>
+                            <div class="movie-tags">
+                                <span class="movie-tag genre">${m.category}</span>
+                                ${m.tags.slice(0, 2).map(t => `<span class="movie-tag">#${t}</span>`).join('')}
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            // 更新排序按钮状态
+            const sortBtn = document.getElementById('sortBtn');
+            if (sortByRating) {
+                sortBtn.classList.add('active-sort');
+                sortBtn.innerHTML = '⭐ 按评分排序';
+            } else {
+                sortBtn.classList.remove('active-sort');
+                sortBtn.innerHTML = '📊 按评分排序';
+            }
+        }
+
+        // ==================== 搜索处理 ====================
+        function handleSearch() {
+            searchQuery = document.getElementById('searchInput').value;
+            renderMovies();
+        }
+
+        // ==================== 分类切换 ====================
+        document.getElementById('categoryTabs').addEventListener('click', function(e) {
+            const tag = e.target.closest('.cat-tag');
+            if (!tag) return;
+
+            // 更新active状态
+            document.querySelectorAll('.cat-tag').forEach(t => t.classList.remove('active'));
+            tag.classList.add('active');
+
+            currentCategory = tag.dataset.category;
+            renderMovies();
+
+            // 滚动到网格区域
+            document.getElementById('movieGrid').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+
+        // ==================== 排序切换 ====================
+        function toggleSort() {
+            sortByRating = !sortByRating;
+            renderMovies();
+        }
+
+        // ==================== 详情弹窗 ====================
+        function openMovieDetail(id) {
+            const movie = movies.find(m => m.id === id);
+            if (!movie) return;
+
+            document.getElementById('modalPoster').src = movie.banner;
+            document.getElementById('modalPoster').alt = movie.title;
+            document.getElementById('modalTitle').textContent = movie.title +
+                (movie.originalTitle ? ` (${movie.originalTitle})` : '');
+            document.getElementById('modalMeta').innerHTML = `
+                <span>⭐ <strong>${movie.rating}</strong> 分</span>
+                <span>📅 ${movie.year}</span>
+                <span>⏱️ ${movie.duration}</span>
+                <span>🌍 ${movie.country}</span>
+                <span>🎬 导演：${movie.director}</span>
+            `;
+            document.getElementById('modalDesc').textContent = movie.desc;
+
+            // 高亮信息
+            const hl = movie.highlight;
+            document.getElementById('modalHighlight').innerHTML = Object.entries(hl).map(([key, val]) => `
+                <div class="hl-item">
+                    <span class="hl-label">${key}</span>
+                    <span class="hl-value">${val}</span>
+                </div>
+            `).join('');
+
+            // 显示弹窗
+            const overlay = document.getElementById('modalOverlay');
+            overlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+
+            // 滚动弹窗到顶部
+            overlay.querySelector('.modal-dialog').scrollTop = 0;
+        }
+
+        function closeModal(event) {
+            if (event && event.target !== document.getElementById('modalOverlay')) return;
+            const overlay = document.getElementById('modalOverlay');
+            overlay.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        // ESC关闭弹窗
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                const overlay = document.getElementById('modalOverlay');
+                if (overlay.classList.contains('active')) {
+                    overlay.classList.remove('active');
+                    document.body.style.overflow = '';
+                }
+            }
+        });
+
+        // ==================== 重置全部 ====================
+        function resetAll() {
+            currentCategory = 'all';
+            searchQuery = '';
+            sortByRating = false;
+            document.getElementById('searchInput').value = '';
+            document.querySelectorAll('.cat-tag').forEach(t => t.classList.remove('active'));
+            document.querySelector('.cat-tag[data-category="all"]').classList.add('active');
+            renderMovies();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // ==================== 启动 ====================
+        init();
+    </script>
+</body>
+</html>
