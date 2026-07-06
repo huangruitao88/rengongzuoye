@@ -10,629 +10,198 @@
             --surface: #141420;
             --surface2: #1a1a2e;
             --gold: #f0c060;
-            --gold-dark: #c8963e;
             --accent: #e8596b;
             --text: #e0dcd0;
             --text-dim: #908b7a;
             --text-bright: #faf7f0;
             --border: #2a2835;
-            --shadow-lg: 0 20px 50px rgba(0, 0, 0, 0.6);
-            --shadow-card: 0 8px 28px rgba(0, 0, 0, 0.45);
+            --shadow-lg: 0 20px 50px rgba(0,0,0,0.6);
+            --shadow-card: 0 8px 28px rgba(0,0,0,0.45);
             --radius-lg: 20px;
             --radius-md: 14px;
-            --radius-sm: 10px;
-            --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
-        body {
-            font-family: 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', 'Noto Sans SC', sans-serif;
-            background-color: var(--bg);
-            color: var(--text);
-            line-height: 1.6;
-            min-height: 100vh;
-            overflow-x: hidden;
-            -webkit-font-smoothing: antialiased;
-        }
-
-        body::before {
-            content: '';
-            position: fixed;
-            inset: 0;
-            background:
-                radial-gradient(ellipse at 20% 20%, rgba(232, 89, 107, 0.04) 0%, transparent 55%),
-                radial-gradient(ellipse at 75% 60%, rgba(240, 192, 96, 0.05) 0%, transparent 55%),
-                radial-gradient(ellipse at 50% 80%, rgba(100, 130, 220, 0.03) 0%, transparent 55%);
-            pointer-events: none;
-            z-index: 0;
-        }
-
-        .app-container {
-            position: relative;
-            z-index: 1;
-            max-width: 1300px;
-            margin: 0 auto;
-            padding: 20px 24px 60px;
-        }
-
-        .header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 20px;
-            padding: 20px 0 30px;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            background: rgba(10, 10, 15, 0.82);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-bottom: 1px solid transparent;
-            transition: border-color 0.4s;
-        }
-        .header.scrolled {
-            border-bottom-color: var(--border);
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            font-size: 1.7rem;
-            font-weight: 800;
-            color: var(--text-bright);
-            cursor: pointer;
-            user-select: none;
-            transition: var(--transition);
-        }
-        .logo:hover {
-            color: var(--gold);
-        }
-        .logo-icon {
-            width: 44px;
-            height: 44px;
-            border-radius: var(--radius-sm);
-            background: linear-gradient(135deg, var(--gold), var(--accent));
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            box-shadow: 0 6px 20px rgba(240, 192, 96, 0.3);
-            flex-shrink: 0;
-        }
-
-        .search-box {
-            display: flex;
-            align-items: center;
-            background: var(--surface2);
-            border-radius: 50px;
-            padding: 6px 8px 6px 18px;
-            border: 2px solid transparent;
-            transition: var(--transition);
-            gap: 6px;
-            flex: 1;
-            max-width: 380px;
-            min-width: 220px;
-        }
-        .search-box:focus-within {
-            border-color: var(--gold);
-            box-shadow: 0 0 0 6px rgba(240, 192, 96, 0.08);
-            background: var(--surface);
-        }
-        .search-box input {
-            background: transparent;
-            border: none;
-            outline: none;
-            color: var(--text-bright);
-            font-size: 0.95rem;
-            width: 100%;
-            padding: 8px 0;
-            font-family: inherit;
-        }
-        .search-box input::placeholder {
-            color: var(--text-dim);
-            opacity: 0.7;
-        }
-        .search-btn {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            border: none;
-            background: var(--gold);
-            color: #1a1a10;
-            cursor: pointer;
-            font-size: 1.1rem;
-            flex-shrink: 0;
-            transition: var(--transition);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .search-btn:hover {
-            background: #f5d080;
-            transform: scale(1.05);
-            box-shadow: 0 4px 16px rgba(240, 192, 96, 0.35);
-        }
-
-        .category-tabs {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-bottom: 32px;
-            padding-top: 8px;
-        }
-        .cat-tag {
-            padding: 10px 20px;
-            border-radius: 50px;
-            border: 1.5px solid var(--border);
-            background: transparent;
-            color: var(--text-dim);
-            cursor: pointer;
-            font-size: 0.9rem;
-            font-weight: 500;
-            transition: var(--transition);
-            white-space: nowrap;
-            font-family: inherit;
-            user-select: none;
-        }
-        .cat-tag:hover {
-            border-color: #5a5560;
-            color: var(--text);
-            background: rgba(255, 255, 255, 0.02);
-        }
-        .cat-tag.active {
-            background: var(--gold);
-            color: #1a1a10;
-            border-color: var(--gold);
-            font-weight: 600;
-            box-shadow: 0 4px 16px rgba(240, 192, 96, 0.3);
-            transform: translateY(-1px);
-        }
-        .cat-count {
-            font-size: 0.75rem;
-            opacity: 0.7;
-            margin-left: 4px;
-        }
-        .cat-tag.active .cat-count {
-            opacity: 1;
-        }
-
-        .stats-bar {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 12px;
-            margin-bottom: 24px;
-            font-size: 0.88rem;
-            color: var(--text-dim);
-        }
-        .stats-bar strong {
-            color: var(--gold);
-            font-weight: 600;
-        }
-        .sort-btn {
-            background: var(--surface2);
-            border: 1px solid var(--border);
-            color: var(--text);
-            padding: 8px 16px;
-            border-radius: 50px;
-            cursor: pointer;
-            font-size: 0.85rem;
-            transition: var(--transition);
-            font-family: inherit;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-        .sort-btn:hover {
-            border-color: #5a5560;
-            background: var(--surface);
-        }
-        .sort-btn.active-sort {
-            border-color: var(--gold);
-            color: var(--gold);
-        }
-
-        .movie-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-            gap: 24px;
-        }
-
-        .movie-card {
-            background: var(--surface);
-            border-radius: var(--radius-lg);
-            overflow: hidden;
-            cursor: pointer;
-            transition: var(--transition);
-            border: 1px solid var(--border);
-            position: relative;
-            box-shadow: var(--shadow-card);
-            display: flex;
-            flex-direction: column;
-        }
-        .movie-card:hover {
-            transform: translateY(-8px);
-            box-shadow: var(--shadow-lg), 0 0 0 1px rgba(240, 192, 96, 0.15);
-            border-color: #3a3545;
-        }
-
-        .movie-poster {
-            position: relative;
-            aspect-ratio: 2 / 3;
-            overflow: hidden;
-            background: var(--surface2);
-            flex-shrink: 0;
-        }
-        .movie-poster img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-            display: block;
-        }
-        .movie-card:hover .movie-poster img {
-            transform: scale(1.07);
-        }
-        .poster-overlay {
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(to top, rgba(10, 10, 15, 0.9) 0%, transparent 50%, transparent 100%);
-            pointer-events: none;
-        }
-        .movie-rating-badge {
-            position: absolute;
-            top: 12px;
-            right: 12px;
-            background: rgba(0, 0, 0, 0.7);
-            backdrop-filter: blur(10px);
-            color: var(--gold);
-            padding: 6px 12px;
-            border-radius: 50px;
-            font-weight: 700;
-            font-size: 0.85rem;
-            z-index: 2;
-            border: 1px solid rgba(240, 192, 96, 0.3);
-        }
-
-        .movie-info {
-            padding: 16px 18px 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            flex: 1;
-        }
-        .movie-title {
-            font-size: 1.15rem;
-            font-weight: 700;
-            color: var(--text-bright);
-            line-height: 1.3;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
-        .movie-meta {
-            display: flex;
-            gap: 12px;
-            font-size: 0.8rem;
-            color: var(--text-dim);
-            flex-wrap: wrap;
-        }
-        .movie-desc {
-            font-size: 0.84rem;
-            color: var(--text-dim);
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-            line-height: 1.5;
-        }
-        .movie-tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 6px;
-            margin-top: auto;
-            padding-top: 4px;
-        }
-        .movie-tag {
-            font-size: 0.73rem;
-            padding: 4px 10px;
-            border-radius: 50px;
-            background: var(--surface2);
-            color: var(--text-dim);
-            white-space: nowrap;
-            border: 1px solid transparent;
-            transition: var(--transition);
-        }
-        .movie-card:hover .movie-tag {
-            border-color: #3a3545;
-        }
-        .movie-tag.genre {
-            background: rgba(232, 89, 107, 0.12);
-            color: #f0909e;
-            border-color: rgba(232, 89, 107, 0.25);
-        }
-
-        .modal-overlay {
-            position: fixed;
-            inset: 0;
-            z-index: 999;
-            background: rgba(0, 0, 0, 0.75);
-            backdrop-filter: blur(8px);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.35s ease;
-        }
-        .modal-overlay.active {
-            opacity: 1;
-            pointer-events: auto;
-        }
-        .modal-dialog {
-            background: var(--surface);
-            border-radius: var(--radius-lg);
-            max-width: 700px;
-            width: 100%;
-            max-height: 85vh;
-            overflow-y: auto;
-            box-shadow: var(--shadow-lg);
-            border: 1px solid var(--border);
-            position: relative;
-            transform: translateY(30px) scale(0.96);
-            transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        .modal-overlay.active .modal-dialog {
-            transform: translateY(0) scale(1);
-        }
-        .modal-close {
-            position: sticky;
-            top: 12px;
-            float: right;
-            z-index: 10;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            border: none;
-            background: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(8px);
-            color: #fff;
-            font-size: 1.3rem;
-            cursor: pointer;
-            margin: 8px 12px;
-            transition: var(--transition);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .modal-close:hover {
-            background: rgba(232, 89, 107, 0.7);
-            transform: rotate(90deg);
-        }
-        .modal-poster {
-            width: 100%;
-            aspect-ratio: 16 / 9;
-            object-fit: cover;
-            border-radius: var(--radius-lg) var(--radius-lg) 0 0;
-            display: block;
-        }
-        .modal-body {
-            padding: 24px 28px 32px;
-        }
-        .modal-body h2 {
-            font-size: 1.6rem;
-            color: var(--text-bright);
-            margin-bottom: 8px;
-        }
-        .modal-body .modal-meta {
-            color: var(--text-dim);
-            font-size: 0.88rem;
-            margin-bottom: 14px;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 14px;
-        }
-        .modal-body .modal-desc {
-            color: var(--text);
-            line-height: 1.8;
-            font-size: 0.95rem;
-            margin-bottom: 16px;
-        }
-        .modal-highlight {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 16px;
-            background: var(--surface2);
-            border-radius: var(--radius-md);
-            padding: 16px 20px;
-            border: 1px solid var(--border);
-        }
-        .hl-item {
-            display: flex;
-            flex-direction: column;
-            gap: 2px;
-        }
-        .hl-label {
-            font-size: 0.73rem;
-            color: var(--text-dim);
-            text-transform: uppercase;
-            letter-spacing: 0.04em;
-        }
-        .hl-value {
-            font-weight: 600;
-            color: var(--gold);
-            font-size: 0.95rem;
-        }
-
-        .watch-btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-            padding: 12px 22px;
-            border-radius: 50px;
-            font-weight: 700;
-            font-size: 0.95rem;
-            text-decoration: none;
-            transition: var(--transition);
-            letter-spacing: 0.03em;
-            border: none;
-            cursor: pointer;
-            background: linear-gradient(135deg, #e8596b, #c0392b);
-            color: #fff;
-            box-shadow: 0 6px 18px rgba(232, 89, 107, 0.4);
-        }
-        .watch-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 24px rgba(232, 89, 107, 0.55);
-            filter: brightness(1.1);
-        }
-        .trailer-btn {
-            background: linear-gradient(135deg, #3a3a4a, #1f1f2e);
-            color: #f0c060;
-            border: 1px solid #5a5560;
-            box-shadow: 0 4px 14px rgba(0,0,0,0.4);
-        }
-        .trailer-btn:hover {
-            border-color: #f0c060;
-            box-shadow: 0 6px 20px rgba(240,192,96,0.25);
-            filter: brightness(1.15);
-        }
-
-        .empty-state {
-            text-align: center;
-            padding: 60px 20px;
-            color: var(--text-dim);
-            grid-column: 1 / -1;
-        }
-        .empty-state .empty-icon {
-            font-size: 4rem;
-            margin-bottom: 16px;
-            opacity: 0.6;
-        }
-
-        .footer {
-            text-align: center;
-            padding: 40px 20px 20px;
-            color: var(--text-dim);
-            font-size: 0.8rem;
-            opacity: 0.7;
-        }
-        .footer span {
-            color: var(--gold);
-        }
-
-        ::-webkit-scrollbar {
-            width: 6px;
-        }
-        ::-webkit-scrollbar-track {
-            background: transparent;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #3a3545;
-            border-radius: 20px;
-        }
-
-        @media (max-width: 768px) {
-            .header {
-                padding: 12px 0 20px;
-                gap: 12px;
-            }
-            .logo {
-                font-size: 1.35rem;
-            }
-            .logo-icon {
-                width: 36px;
-                height: 36px;
-                font-size: 1.2rem;
-            }
-            .search-box {
-                max-width: 100%;
-                order: 3;
-                flex: 1 1 100%;
-            }
-            .movie-grid {
-                grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-                gap: 16px;
-            }
-            .cat-tag {
-                padding: 8px 14px;
-                font-size: 0.8rem;
-            }
-            .modal-body {
-                padding: 16px 18px 24px;
-            }
-        }
+            --transition: 0.3s cubic-bezier(0.4,0,0.2,1);
+        }
+        *{margin:0;padding:0;box-sizing:border-box;}
+        html{scroll-behavior:smooth;}
+        body{
+            font-family:'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif;
+            background:var(--bg);color:var(--text);line-height:1.6;
+            min-height:100vh;overflow-x:hidden;
+        }
+        body::before{
+            content:'';position:fixed;inset:0;
+            background:radial-gradient(ellipse at 20% 20%,rgba(232,89,107,0.04) 0%,transparent 55%),
+                       radial-gradient(ellipse at 75% 60%,rgba(240,192,96,0.05) 0%,transparent 55%);
+            pointer-events:none;z-index:0;
+        }
+        .app-container{position:relative;z-index:1;max-width:1300px;margin:0 auto;padding:20px 24px 60px;}
+        .header{
+            display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;
+            gap:20px;padding:20px 0 30px;position:sticky;top:0;z-index:100;
+            background:rgba(10,10,15,0.82);backdrop-filter:blur(20px);
+        }
+        .logo{
+            display:flex;align-items:center;gap:12px;font-size:1.7rem;
+            font-weight:800;color:var(--text-bright);cursor:pointer;
+        }
+        .logo:hover{color:var(--gold);}
+        .logo-icon{
+            width:44px;height:44px;border-radius:10px;
+            background:linear-gradient(135deg,var(--gold),var(--accent));
+            display:flex;align-items:center;justify-content:center;font-size:1.5rem;
+        }
+        .search-box{
+            display:flex;align-items:center;background:var(--surface2);
+            border-radius:50px;padding:6px 8px 6px 18px;border:2px solid transparent;
+            gap:6px;flex:1;max-width:380px;min-width:220px;
+        }
+        .search-box:focus-within{border-color:var(--gold);}
+        .search-box input{
+            background:transparent;border:none;outline:none;
+            color:var(--text-bright);font-size:0.95rem;width:100%;padding:8px 0;
+        }
+        .search-btn{
+            width:40px;height:40px;border-radius:50%;border:none;
+            background:var(--gold);color:#1a1a10;cursor:pointer;font-size:1.1rem;
+        }
+        .category-tabs{display:flex;flex-wrap:wrap;gap:10px;margin:20px 0 32px;}
+        .cat-tag{
+            padding:10px 20px;border-radius:50px;border:1.5px solid var(--border);
+            background:transparent;color:var(--text-dim);cursor:pointer;
+            font-size:0.9rem;transition:var(--transition);
+        }
+        .cat-tag.active{
+            background:var(--gold);color:#1a1a10;border-color:var(--gold);font-weight:600;
+        }
+        .stats-bar{
+            display:flex;justify-content:space-between;align-items:center;
+            margin-bottom:24px;color:var(--text-dim);
+        }
+        .stats-bar strong{color:var(--gold);}
+        .sort-btn{
+            background:var(--surface2);border:1px solid var(--border);
+            color:var(--text);padding:8px 16px;border-radius:50px;cursor:pointer;
+        }
+        .movie-grid{
+            display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:24px;
+        }
+        .movie-card{
+            background:var(--surface);border-radius:20px;overflow:hidden;
+            cursor:pointer;transition:var(--transition);border:1px solid var(--border);
+            box-shadow:var(--shadow-card);
+        }
+        .movie-card:hover{transform:translateY(-8px);}
+        .movie-poster{
+            aspect-ratio:2/3;overflow:hidden;background:var(--surface2);
+        }
+        .movie-poster img{width:100%;height:100%;object-fit:cover;}
+        .movie-card:hover .movie-poster img{transform:scale(1.07);}
+        .movie-rating-badge{
+            position:absolute;top:12px;right:12px;
+            background:rgba(0,0,0,0.7);color:var(--gold);
+            padding:6px 12px;border-radius:50px;font-weight:700;
+        }
+        .movie-info{padding:16px 18px 20px;}
+        .movie-title{font-size:1.15rem;font-weight:700;color:var(--text-bright);}
+        .movie-meta{font-size:0.8rem;color:var(--text-dim);margin:6px 0;}
+        .movie-desc{font-size:0.84rem;color:var(--text-dim);}
+        .movie-tags{display:flex;gap:6px;margin-top:8px;}
+        .movie-tag{
+            font-size:0.73rem;padding:4px 10px;border-radius:50px;
+            background:var(--surface2);color:var(--text-dim);
+        }
+        .movie-tag.genre{background:rgba(232,89,107,0.2);color:#f0909e;}
+        .modal-overlay{
+            position:fixed;inset:0;z-index:999;background:rgba(0,0,0,0.75);
+            backdrop-filter:blur(8px);display:flex;align-items:center;
+            justify-content:center;padding:20px;
+            opacity:0;pointer-events:none;transition:opacity 0.35s;
+        }
+        .modal-overlay.active{opacity:1;pointer-events:auto;}
+        .modal-dialog{
+            background:var(--surface);border-radius:20px;max-width:700px;
+            width:100%;max-height:85vh;overflow-y:auto;
+        }
+        .modal-close{
+            position:sticky;top:12px;float:right;z-index:10;
+            width:40px;height:40px;border-radius:50%;border:none;
+            background:rgba(0,0,0,0.6);color:#fff;font-size:1.3rem;
+            cursor:pointer;margin:8px 12px;
+        }
+        .modal-poster{
+            width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:20px 20px 0 0;
+        }
+        .modal-body{padding:24px 28px 32px;}
+        .modal-body h2{font-size:1.6rem;color:var(--text-bright);}
+        .modal-body .modal-meta{color:var(--text-dim);margin:10px 0;}
+        .modal-body .modal-desc{color:var(--text);line-height:1.8;}
+        .modal-highlight{
+            display:flex;gap:16px;background:var(--surface2);
+            padding:16px 20px;border-radius:14px;margin-bottom:16px;
+        }
+        .hl-item{display:flex;flex-direction:column;}
+        .hl-label{font-size:0.73rem;color:var(--text-dim);}
+        .hl-value{font-weight:600;color:var(--gold);}
+        .watch-btn{
+            display:inline-flex;align-items:center;gap:6px;
+            padding:12px 22px;border-radius:50px;font-weight:700;
+            text-decoration:none;cursor:pointer;
+            background:linear-gradient(135deg,#e8596b,#c0392b);color:#fff;
+        }
+        .trailer-btn{
+            background:linear-gradient(135deg,#3a3a4a,#1f1f2e);
+            color:#f0c060;border:1px solid #5a5560;
+        }
+        .empty-state{text-align:center;padding:60px;color:var(--text-dim);}
+        .footer{text-align:center;padding:40px;color:var(--text-dim);}
     </style>
 </head>
 <body>
     <div class="app-container">
-        <header class="header" id="header">
+        <header class="header">
             <div class="logo" onclick="resetAll()">
                 <div class="logo-icon">🎬</div>
                 光影驿站
             </div>
             <div class="search-box">
-                <input type="text" id="searchInput" placeholder="搜索电影名称、导演、类型..." oninput="handleSearch()">
-                <button class="search-btn" onclick="handleSearch()" aria-label="搜索">🔍</button>
+                <input type="text" id="searchInput" placeholder="搜索电影..." oninput="handleSearch()">
+                <button class="search-btn" onclick="handleSearch()">🔍</button>
             </div>
         </header>
 
         <div class="category-tabs" id="categoryTabs">
-            <button class="cat-tag active" data-category
-                        <div class="category-tabs" id="categoryTabs">
-            <button class="cat-tag active" data-category="all">全部<span class="cat-count"></span></button>
-            <button class="cat-tag" data-category="动作">动作<span class="cat-count"></span></button>
-            <button class="cat-tag" data-category="科幻">科幻<span class="cat-count"></span></button>
-            <button class="cat-tag" data-category="爱情">爱情<span class="cat-count"></span></button>
-            <button class="cat-tag" data-category="动画">动画<span class="cat-count"></span></button>
-            <button class="cat-tag" data-category="悬疑">悬疑<span class="cat-count"></span></button>
-            <button class="cat-tag" data-category="喜剧">喜剧<span class="cat-count"></span></button>
-            <button class="cat-tag" data-category="剧情">剧情<span class="cat-count"></span></button>
+            <button class="cat-tag active" data-category="all">全部</button>
+            <button class="cat-tag" data-category="动作">动作</button>
+            <button class="cat-tag" data-category="科幻">科幻</button>
+            <button class="cat-tag" data-category="爱情">爱情</button>
+            <button class="cat-tag" data-category="动画">动画</button>
+            <button class="cat-tag" data-category="悬疑">悬疑</button>
+            <button class="cat-tag" data-category="喜剧">喜剧</button>
+            <button class="cat-tag" data-category="剧情">剧情</button>
         </div>
 
         <div class="stats-bar">
             <span>共 <strong id="movieCount">0</strong> 部电影</span>
-            <button class="sort-btn" id="sortBtn" onclick="toggleSort()">📊 按评分排序</button>
+            <button class="sort-btn" onclick="toggleSort()">📊 按评分排序</button>
         </div>
 
         <div class="movie-grid" id="movieGrid"></div>
-
         <div class="empty-state" id="emptyState" style="display:none;">
-            <div class="empty-icon">🎞️</div>
-            <p>没有找到匹配的电影</p>
-            <p style="font-size:0.82rem;margin-top:4px;">试试其他关键词吧～</p>
+            <p>🎞️ 没有找到匹配的电影</p>
         </div>
-
-        <div class="footer">
-            <p>✨ 光影驿站 · 发现好电影 · <span>用心推介每一部佳作</span> ✨</p>
-        </div>
+        <div class="footer">✨ 光影驿站 · 发现好电影 ✨</div>
     </div>
 
     <div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
         <div class="modal-dialog" onclick="event.stopPropagation()">
             <button class="modal-close" onclick="closeModal()">✕</button>
-            <img class="modal-poster" id="modalPoster" src="" alt="">
+            <img class="modal-poster" id="modalPoster" src="">
             <div class="modal-body">
                 <h2 id="modalTitle"></h2>
                 <div class="modal-meta" id="modalMeta"></div>
                 <p class="modal-desc" id="modalDesc"></p>
                 <div class="modal-highlight" id="modalHighlight"></div>
-                <div class="modal-actions" id="modalActions" style="display: flex; gap: 12px; margin-top: 18px; flex-wrap: wrap;">
+                <div style="display:flex;gap:12px;margin-top:18px;">
                     <a id="watchBtn" href="#" target="_blank" class="watch-btn" style="display:none;">▶️ 立即观看</a>
                     <a id="trailerBtn" href="#" target="_blank" class="watch-btn trailer-btn" style="display:none;">🎬 预告片</a>
                 </div>
@@ -640,108 +209,142 @@
         </div>
     </div>
 
-    <!-- 加载电影数据 -->
-    <script src="movies.js"></script>
-
     <script>
+        // ========== 电影数据（直接在这里添加） ==========
+        const movies = [
+            {
+                id:1,title:'星际穿越',originalTitle:'Interstellar',year:2014,rating:9.4,
+                director:'克里斯托弗·诺兰',category:'科幻',duration:'169分钟',country:'美国',
+                poster:'https://picsum.photos/seed/interstellar/400/600',
+                banner:'https://picsum.photos/seed/interstellar-banner/900/400',
+                desc:'在地球资源逐渐枯竭的未来，前NASA宇航员库珀被选中参加一项穿越虫洞的星际任务，为人类寻找新的家园。',
+                tags:['太空','时间旅行','亲情','硬科幻'],
+                highlight:{'IMDb':'8.7','豆瓣':'9.4','奥斯卡':'最佳视觉效果'},
+                watchUrl:'',trailerUrl:''
+            },
+            {
+                id:2,title:'肖申克的救赎',originalTitle:'The Shawshank Redemption',year:1994,rating:9.7,
+                director:'弗兰克·德拉邦特',category:'剧情',duration:'142分钟',country:'美国',
+                poster:'https://picsum.photos/seed/shawshank/400/600',
+                banner:'https://picsum.photos/seed/shawshank-banner/900/400',
+                desc:'银行家安迪因被误判谋杀妻子而关进肖申克监狱。他用智慧与毅力赢得了尊重，也悄然筹划着惊天越狱。',
+                tags:['监狱','希望','友情','经典'],
+                highlight:{'IMDb':'9.3','豆瓣':'9.7','地位':'影史TOP1'},
+                watchUrl:'',trailerUrl:''
+            },
+            {
+                id:3,title:'你的名字。',originalTitle:'君の名は。',year:2016,rating:8.8,
+                director:'新海诚',category:'动画',duration:'106分钟',country:'日本',
+                poster:'https://picsum.photos/seed/yourname/400/600',
+                banner:'https://picsum.photos/seed/yourname-banner/900/400',
+                desc:'生活在乡下的三叶与东京高中生泷，在某天醒来后发现自己与对方互换了身体。',
+                tags:['纯爱','时空','青春','催泪'],
+                highlight:{'豆瓣':'8.8','票房':'全球3.6亿美元'},
+                watchUrl:'',trailerUrl:''
+            },
+            {
+                id:4,title:'盗梦空间',originalTitle:'Inception',year:2010,rating:9.3,
+                director:'克里斯托弗·诺兰',category:'科幻',duration:'148分钟',country:'美国',
+                poster:'https://picsum.photos/seed/inception/400/600',
+                banner:'https://picsum.photos/seed/inception-banner/900/400',
+                desc:'道姆·柯布是一名"盗梦者"，能够潜入他人梦境窃取机密。层层嵌套的梦境，诺兰再次挑战观众的大脑极限。',
+                tags:['梦境','悬疑','动作','烧脑'],
+                highlight:{'IMDb':'8.8','豆瓣':'9.3','奥斯卡':'4项大奖'},
+                watchUrl:'',trailerUrl:''
+            },
+            {
+                id:5,title:'泰坦尼克号',originalTitle:'Titanic',year:1997,rating:9.1,
+                director:'詹姆斯·卡梅隆',category:'爱情',duration:'194分钟',country:'美国',
+                poster:'https://picsum.photos/seed/titanic/400/600',
+                banner:'https://picsum.photos/seed/titanic-banner/900/400',
+                desc:'穷画家杰克与贵族少女露丝在泰坦尼克号上相遇相恋，成为影史永恒的经典。',
+                tags:['灾难','浪漫','经典','史诗'],
+                highlight:{'IMDb':'7.9','豆瓣':'9.1','奥斯卡':'11项大奖'},
+                watchUrl:'',trailerUrl:''
+            },
+            {
+                id:6,title:'疯狂动物城',originalTitle:'Zootopia',year:2016,rating:8.9,
+                director:'拜伦·霍华德',category:'动画',duration:'109分钟',country:'美国',
+                poster:'https://picsum.photos/seed/zootopia/400/600',
+                banner:'https://picsum.photos/seed/zootopia-banner/900/400',
+                desc:'小兔子朱迪实现了当警察的梦想，与狐狸尼克搭档破获神秘案件。',
+                tags:['冒险','喜剧','社会','迪士尼'],
+                highlight:{'豆瓣':'8.9','奥斯卡':'最佳动画长片'},
+                watchUrl:'',trailerUrl:''
+            },
+            {
+                id:7,title:'看不见的客人',originalTitle:'Contratiempo',year:2016,rating:9.0,
+                director:'奥里奥尔·保罗',category:'悬疑',duration:'106分钟',country:'西班牙',
+                poster:'https://picsum.photos/seed/contratiempo/400/600',
+                banner:'https://picsum.photos/seed/contratiempo-banner/900/400',
+                desc:'企业家阿德里安被指控谋杀情人，在开庭前夜的对话中，真相与谎言层层交织。',
+                tags:['反转','犯罪','推理'],
+                highlight:{'豆瓣':'9.0','口碑':'悬疑神作'},
+                watchUrl:'',trailerUrl:''
+            },
+            {
+                id:8,title:'功夫',originalTitle:'Kung Fu Hustle',year:2004,rating:8.8,
+                director:'周星驰',category:'喜剧',duration:'99分钟',country:'中国香港',
+                poster:'https://picsum.photos/seed/kungfu/400/600',
+                banner:'https://picsum.photos/seed/kungfu-banner/900/400',
+                desc:'小混混阿星误闯猪笼城寨，卷入了斧头帮与隐藏高手之间的对决。',
+                tags:['功夫','无厘头','周星驰'],
+                highlight:{'豆瓣':'8.8','金像奖':'最佳影片'},
+                watchUrl:'',trailerUrl:''
+            }
+        ];
+
+        // ========== 主逻辑 ==========
         let currentCategory = 'all';
         let searchQuery = '';
         let sortByRating = false;
 
-        function init() {
-            updateCategoryCounts();
-            renderMovies();
-            window.addEventListener('scroll', () => {
-                const header = document.getElementById('header');
-                if (window.scrollY > 30) {
-                    header.classList.add('scrolled');
-                } else {
-                    header.classList.remove('scrolled');
-                }
-            });
-            document.getElementById('searchInput').addEventListener('keydown', (e) => {
-                if (e.key === 'Enter') handleSearch();
-            });
-        }
-
-        function updateCategoryCounts() {
-            const tabs = document.querySelectorAll('.cat-tag');
-            tabs.forEach(tab => {
-                const cat = tab.dataset.category;
-                const countSpan = tab.querySelector('.cat-count');
-                if (cat === 'all') {
-                    countSpan.textContent = '(' + movies.length + ')';
-                } else {
-                    const count = movies.filter(function(m) { return m.category === cat; }).length;
-                    countSpan.textContent = '(' + count + ')';
-                }
-            });
-        }
-
         function getFilteredMovies() {
-            let filtered = [].concat(movies);
-
+            let filtered = [...movies];
             if (currentCategory !== 'all') {
-                filtered = filtered.filter(function(m) { return m.category === currentCategory; });
+                filtered = filtered.filter(m => m.category === currentCategory);
             }
-
             if (searchQuery.trim()) {
                 const q = searchQuery.trim().toLowerCase();
-                filtered = filtered.filter(function(m) {
-                    return m.title.toLowerCase().includes(q) ||
-                        m.director.toLowerCase().includes(q) ||
-                        m.category.toLowerCase().includes(q) ||
-                        m.tags.some(function(t) { return t.toLowerCase().includes(q); }) ||
-                        m.desc.toLowerCase().includes(q) ||
-                        (m.originalTitle && m.originalTitle.toLowerCase().includes(q));
-                });
+                filtered = filtered.filter(m =>
+                    m.title.toLowerCase().includes(q) ||
+                    m.director.toLowerCase().includes(q) ||
+                    m.category.toLowerCase().includes(q) ||
+                    m.tags.some(t => t.toLowerCase().includes(q))
+                );
             }
-
             if (sortByRating) {
-                filtered.sort(function(a, b) { return b.rating - a.rating; });
-            } else {
-                filtered.sort(function(a, b) { return b.year - a.year; });
+                filtered.sort((a, b) => b.rating - a.rating);
             }
-
             return filtered;
         }
 
         function renderMovies() {
-            const grid = document.getElementById('movieGrid');
-            const emptyState = document.getElementById('emptyState');
             const filtered = getFilteredMovies();
-
             document.getElementById('movieCount').textContent = filtered.length;
-
+            
             if (filtered.length === 0) {
-                grid.innerHTML = '';
-                emptyState.style.display = 'block';
+                document.getElementById('movieGrid').innerHTML = '';
+                document.getElementById('emptyState').style.display = 'block';
             } else {
-                emptyState.style.display = 'none';
-                grid.innerHTML = filtered.map(function(m) {
-                    return '<div class="movie-card" onclick="openMovieDetail(' + m.id + ')" title="' + m.title + ' - 点击查看详情">' +
-                        '<div class="movie-poster">' +
-                        '<img src="' + m.poster + '" alt="' + m.title + '" loading="lazy" onerror="this.src=\'https://picsum.photos/seed/fallback' + m.id + '/400/600\'">' +
-                        '<div class="poster-overlay"></div>' +
-                        '<div class="movie-rating-badge">⭐' + m.rating + '</div>' +
-                        '</div>' +
-                        '<div class="movie-info">' +
-                        '<div class="movie-title">' + m.title + '</div>' +
-                        '<div class="movie-meta"><span>📅 ' + m.year + '</span><span>🎬 ' + m.director + '</span></div>' +
-                        '<div class="movie-desc">' + m.desc + '</div>' +
-                        '<div class="movie-tags"><span class="movie-tag genre">' + m.category + '</span>' +
-                        m.tags.slice(0, 2).map(function(t) { return '<span class="movie-tag">#' + t + '</span>'; }).join('') +
-                        '</div></div></div>';
-                }).join('');
-            }
-
-            const sortBtn = document.getElementById('sortBtn');
-            if (sortByRating) {
-                sortBtn.classList.add('active-sort');
-                sortBtn.innerHTML = '⭐ 按评分排序';
-            } else {
-                sortBtn.classList.remove('active-sort');
-                sortBtn.innerHTML = '📊 按评分排序';
+                document.getElementById('emptyState').style.display = 'none';
+                document.getElementById('movieGrid').innerHTML = filtered.map(m => `
+                    <div class="movie-card" onclick="openDetail(${m.id})" style="position:relative;">
+                        <div class="movie-poster">
+                            <img src="${m.poster}" alt="${m.title}" onerror="this.src='https://picsum.photos/400/600'">
+                            <div class="movie-rating-badge">⭐${m.rating}</div>
+                        </div>
+                        <div class="movie-info">
+                            <div class="movie-title">${m.title}</div>
+                            <div class="movie-meta">📅${m.year} 🎬${m.director}</div>
+                            <div class="movie-desc">${m.desc}</div>
+                            <div class="movie-tags">
+                                <span class="movie-tag genre">${m.category}</span>
+                                ${m.tags.slice(0,2).map(t => `<span class="movie-tag">#${t}</span>`).join('')}
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
             }
         }
 
@@ -753,11 +356,10 @@
         document.getElementById('categoryTabs').addEventListener('click', function(e) {
             const tag = e.target.closest('.cat-tag');
             if (!tag) return;
-            document.querySelectorAll('.cat-tag').forEach(function(t) { t.classList.remove('active'); });
+            document.querySelectorAll('.cat-tag').forEach(t => t.classList.remove('active'));
             tag.classList.add('active');
             currentCategory = tag.dataset.category;
             renderMovies();
-            document.getElementById('movieGrid').scrollIntoView({ behavior: 'smooth', block: 'start' });
         });
 
         function toggleSort() {
@@ -765,79 +367,46 @@
             renderMovies();
         }
 
-        function openMovieDetail(id) {
-            const movie = movies.find(function(m) { return m.id === id; });
-            if (!movie) return;
-
-            document.getElementById('modalPoster').src = movie.banner;
-            document.getElementById('modalPoster').alt = movie.title;
-            document.getElementById('modalTitle').textContent = movie.title +
-                (movie.originalTitle ? ' (' + movie.originalTitle + ')' : '');
-            document.getElementById('modalMeta').innerHTML =
-                '<span>⭐ <strong>' + movie.rating + '</strong> 分</span>' +
-                '<span>📅 ' + movie.year + '</span>' +
-                '<span>⏱️ ' + movie.duration + '</span>' +
-                '<span>🌍 ' + movie.country + '</span>' +
-                '<span>🎬 导演：' + movie.director + '</span>';
-            document.getElementById('modalDesc').textContent = movie.desc;
-
-            const hl = movie.highlight;
-            document.getElementById('modalHighlight').innerHTML = Object.entries(hl).map(function(entry) {
-                return '<div class="hl-item"><span class="hl-label">' + entry[0] + '</span><span class="hl-value">' + entry[1] + '</span></div>';
-            }).join('');
-
-            const watchBtn = document.getElementById('watchBtn');
-            const trailerBtn = document.getElementById('trailerBtn');
-
-            if (movie.watchUrl && movie.watchUrl.trim() !== '') {
-                watchBtn.href = movie.watchUrl;
-                watchBtn.style.display = 'inline-flex';
-            } else {
-                watchBtn.style.display = 'none';
-            }
-
-            if (movie.trailerUrl && movie.trailerUrl.trim() !== '') {
-                trailerBtn.href = movie.trailerUrl;
-                trailerBtn.style.display = 'inline-flex';
-            } else {
-                trailerBtn.style.display = 'none';
-            }
-
-            const overlay = document.getElementById('modalOverlay');
-            overlay.classList.add('active');
-            document.body.style.overflow = 'hidden';
-            overlay.querySelector('.modal-dialog').scrollTop = 0;
+        function openDetail(id) {
+            const m = movies.find(x => x.id === id);
+            if (!m) return;
+            document.getElementById('modalPoster').src = m.banner;
+            document.getElementById('modalTitle').textContent = m.title + (m.originalTitle ? ' (' + m.originalTitle + ')' : '');
+            document.getElementById('modalMeta').innerHTML = `⭐${m.rating}分 📅${m.year} ⏱️${m.duration} 🌍${m.country} 🎬${m.director}`;
+            document.getElementById('modalDesc').textContent = m.desc;
+            document.getElementById('modalHighlight').innerHTML = Object.entries(m.highlight)
+                .map(([k,v]) => `<div class="hl-item"><span class="hl-label">${k}</span><span class="hl-value">${v}</span></div>`).join('');
+            
+            const wb = document.getElementById('watchBtn');
+            const tb = document.getElementById('trailerBtn');
+            wb.style.display = m.watchUrl ? 'inline-flex' : 'none';
+            tb.style.display = m.trailerUrl ? 'inline-flex' : 'none';
+            if(m.watchUrl) wb.href = m.watchUrl;
+            if(m.trailerUrl) tb.href = m.trailerUrl;
+            
+            document.getElementById('modalOverlay').classList.add('active');
         }
 
         function closeModal(event) {
             if (event && event.target !== document.getElementById('modalOverlay')) return;
-            const overlay = document.getElementById('modalOverlay');
-            overlay.classList.remove('active');
-            document.body.style.overflow = '';
+            document.getElementById('modalOverlay').classList.remove('active');
         }
-
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape') {
-                const overlay = document.getElementById('modalOverlay');
-                if (overlay.classList.contains('active')) {
-                    overlay.classList.remove('active');
-                    document.body.style.overflow = '';
-                }
-            }
-        });
 
         function resetAll() {
             currentCategory = 'all';
             searchQuery = '';
             sortByRating = false;
             document.getElementById('searchInput').value = '';
-            document.querySelectorAll('.cat-tag').forEach(function(t) { t.classList.remove('active'); });
+            document.querySelectorAll('.cat-tag').forEach(t => t.classList.remove('active'));
             document.querySelector('.cat-tag[data-category="all"]').classList.add('active');
             renderMovies();
-            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        init();
+        document.addEventListener('keydown', e => {
+            if (e.key === 'Escape') document.getElementById('modalOverlay').classList.remove('active');
+        });
+
+        renderMovies();
     </script>
 </body>
 </html>
