@@ -594,3 +594,250 @@
 
         <div class="category-tabs" id="categoryTabs">
             <button class="cat-tag active" data-category
+                        <div class="category-tabs" id="categoryTabs">
+            <button class="cat-tag active" data-category="all">全部<span class="cat-count"></span></button>
+            <button class="cat-tag" data-category="动作">动作<span class="cat-count"></span></button>
+            <button class="cat-tag" data-category="科幻">科幻<span class="cat-count"></span></button>
+            <button class="cat-tag" data-category="爱情">爱情<span class="cat-count"></span></button>
+            <button class="cat-tag" data-category="动画">动画<span class="cat-count"></span></button>
+            <button class="cat-tag" data-category="悬疑">悬疑<span class="cat-count"></span></button>
+            <button class="cat-tag" data-category="喜剧">喜剧<span class="cat-count"></span></button>
+            <button class="cat-tag" data-category="剧情">剧情<span class="cat-count"></span></button>
+        </div>
+
+        <div class="stats-bar">
+            <span>共 <strong id="movieCount">0</strong> 部电影</span>
+            <button class="sort-btn" id="sortBtn" onclick="toggleSort()">📊 按评分排序</button>
+        </div>
+
+        <div class="movie-grid" id="movieGrid"></div>
+
+        <div class="empty-state" id="emptyState" style="display:none;">
+            <div class="empty-icon">🎞️</div>
+            <p>没有找到匹配的电影</p>
+            <p style="font-size:0.82rem;margin-top:4px;">试试其他关键词吧～</p>
+        </div>
+
+        <div class="footer">
+            <p>✨ 光影驿站 · 发现好电影 · <span>用心推介每一部佳作</span> ✨</p>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+        <div class="modal-dialog" onclick="event.stopPropagation()">
+            <button class="modal-close" onclick="closeModal()">✕</button>
+            <img class="modal-poster" id="modalPoster" src="" alt="">
+            <div class="modal-body">
+                <h2 id="modalTitle"></h2>
+                <div class="modal-meta" id="modalMeta"></div>
+                <p class="modal-desc" id="modalDesc"></p>
+                <div class="modal-highlight" id="modalHighlight"></div>
+                <div class="modal-actions" id="modalActions" style="display: flex; gap: 12px; margin-top: 18px; flex-wrap: wrap;">
+                    <a id="watchBtn" href="#" target="_blank" class="watch-btn" style="display:none;">▶️ 立即观看</a>
+                    <a id="trailerBtn" href="#" target="_blank" class="watch-btn trailer-btn" style="display:none;">🎬 预告片</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 加载电影数据 -->
+    <script src="movies.js"></script>
+
+    <script>
+        let currentCategory = 'all';
+        let searchQuery = '';
+        let sortByRating = false;
+
+        function init() {
+            updateCategoryCounts();
+            renderMovies();
+            window.addEventListener('scroll', () => {
+                const header = document.getElementById('header');
+                if (window.scrollY > 30) {
+                    header.classList.add('scrolled');
+                } else {
+                    header.classList.remove('scrolled');
+                }
+            });
+            document.getElementById('searchInput').addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') handleSearch();
+            });
+        }
+
+        function updateCategoryCounts() {
+            const tabs = document.querySelectorAll('.cat-tag');
+            tabs.forEach(tab => {
+                const cat = tab.dataset.category;
+                const countSpan = tab.querySelector('.cat-count');
+                if (cat === 'all') {
+                    countSpan.textContent = '(' + movies.length + ')';
+                } else {
+                    const count = movies.filter(function(m) { return m.category === cat; }).length;
+                    countSpan.textContent = '(' + count + ')';
+                }
+            });
+        }
+
+        function getFilteredMovies() {
+            let filtered = [].concat(movies);
+
+            if (currentCategory !== 'all') {
+                filtered = filtered.filter(function(m) { return m.category === currentCategory; });
+            }
+
+            if (searchQuery.trim()) {
+                const q = searchQuery.trim().toLowerCase();
+                filtered = filtered.filter(function(m) {
+                    return m.title.toLowerCase().includes(q) ||
+                        m.director.toLowerCase().includes(q) ||
+                        m.category.toLowerCase().includes(q) ||
+                        m.tags.some(function(t) { return t.toLowerCase().includes(q); }) ||
+                        m.desc.toLowerCase().includes(q) ||
+                        (m.originalTitle && m.originalTitle.toLowerCase().includes(q));
+                });
+            }
+
+            if (sortByRating) {
+                filtered.sort(function(a, b) { return b.rating - a.rating; });
+            } else {
+                filtered.sort(function(a, b) { return b.year - a.year; });
+            }
+
+            return filtered;
+        }
+
+        function renderMovies() {
+            const grid = document.getElementById('movieGrid');
+            const emptyState = document.getElementById('emptyState');
+            const filtered = getFilteredMovies();
+
+            document.getElementById('movieCount').textContent = filtered.length;
+
+            if (filtered.length === 0) {
+                grid.innerHTML = '';
+                emptyState.style.display = 'block';
+            } else {
+                emptyState.style.display = 'none';
+                grid.innerHTML = filtered.map(function(m) {
+                    return '<div class="movie-card" onclick="openMovieDetail(' + m.id + ')" title="' + m.title + ' - 点击查看详情">' +
+                        '<div class="movie-poster">' +
+                        '<img src="' + m.poster + '" alt="' + m.title + '" loading="lazy" onerror="this.src=\'https://picsum.photos/seed/fallback' + m.id + '/400/600\'">' +
+                        '<div class="poster-overlay"></div>' +
+                        '<div class="movie-rating-badge">⭐' + m.rating + '</div>' +
+                        '</div>' +
+                        '<div class="movie-info">' +
+                        '<div class="movie-title">' + m.title + '</div>' +
+                        '<div class="movie-meta"><span>📅 ' + m.year + '</span><span>🎬 ' + m.director + '</span></div>' +
+                        '<div class="movie-desc">' + m.desc + '</div>' +
+                        '<div class="movie-tags"><span class="movie-tag genre">' + m.category + '</span>' +
+                        m.tags.slice(0, 2).map(function(t) { return '<span class="movie-tag">#' + t + '</span>'; }).join('') +
+                        '</div></div></div>';
+                }).join('');
+            }
+
+            const sortBtn = document.getElementById('sortBtn');
+            if (sortByRating) {
+                sortBtn.classList.add('active-sort');
+                sortBtn.innerHTML = '⭐ 按评分排序';
+            } else {
+                sortBtn.classList.remove('active-sort');
+                sortBtn.innerHTML = '📊 按评分排序';
+            }
+        }
+
+        function handleSearch() {
+            searchQuery = document.getElementById('searchInput').value;
+            renderMovies();
+        }
+
+        document.getElementById('categoryTabs').addEventListener('click', function(e) {
+            const tag = e.target.closest('.cat-tag');
+            if (!tag) return;
+            document.querySelectorAll('.cat-tag').forEach(function(t) { t.classList.remove('active'); });
+            tag.classList.add('active');
+            currentCategory = tag.dataset.category;
+            renderMovies();
+            document.getElementById('movieGrid').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+
+        function toggleSort() {
+            sortByRating = !sortByRating;
+            renderMovies();
+        }
+
+        function openMovieDetail(id) {
+            const movie = movies.find(function(m) { return m.id === id; });
+            if (!movie) return;
+
+            document.getElementById('modalPoster').src = movie.banner;
+            document.getElementById('modalPoster').alt = movie.title;
+            document.getElementById('modalTitle').textContent = movie.title +
+                (movie.originalTitle ? ' (' + movie.originalTitle + ')' : '');
+            document.getElementById('modalMeta').innerHTML =
+                '<span>⭐ <strong>' + movie.rating + '</strong> 分</span>' +
+                '<span>📅 ' + movie.year + '</span>' +
+                '<span>⏱️ ' + movie.duration + '</span>' +
+                '<span>🌍 ' + movie.country + '</span>' +
+                '<span>🎬 导演：' + movie.director + '</span>';
+            document.getElementById('modalDesc').textContent = movie.desc;
+
+            const hl = movie.highlight;
+            document.getElementById('modalHighlight').innerHTML = Object.entries(hl).map(function(entry) {
+                return '<div class="hl-item"><span class="hl-label">' + entry[0] + '</span><span class="hl-value">' + entry[1] + '</span></div>';
+            }).join('');
+
+            const watchBtn = document.getElementById('watchBtn');
+            const trailerBtn = document.getElementById('trailerBtn');
+
+            if (movie.watchUrl && movie.watchUrl.trim() !== '') {
+                watchBtn.href = movie.watchUrl;
+                watchBtn.style.display = 'inline-flex';
+            } else {
+                watchBtn.style.display = 'none';
+            }
+
+            if (movie.trailerUrl && movie.trailerUrl.trim() !== '') {
+                trailerBtn.href = movie.trailerUrl;
+                trailerBtn.style.display = 'inline-flex';
+            } else {
+                trailerBtn.style.display = 'none';
+            }
+
+            const overlay = document.getElementById('modalOverlay');
+            overlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+            overlay.querySelector('.modal-dialog').scrollTop = 0;
+        }
+
+        function closeModal(event) {
+            if (event && event.target !== document.getElementById('modalOverlay')) return;
+            const overlay = document.getElementById('modalOverlay');
+            overlay.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                const overlay = document.getElementById('modalOverlay');
+                if (overlay.classList.contains('active')) {
+                    overlay.classList.remove('active');
+                    document.body.style.overflow = '';
+                }
+            }
+        });
+
+        function resetAll() {
+            currentCategory = 'all';
+            searchQuery = '';
+            sortByRating = false;
+            document.getElementById('searchInput').value = '';
+            document.querySelectorAll('.cat-tag').forEach(function(t) { t.classList.remove('active'); });
+            document.querySelector('.cat-tag[data-category="all"]').classList.add('active');
+            renderMovies();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        init();
+    </script>
+</body>
+</html>
