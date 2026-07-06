@@ -267,9 +267,6 @@
             box-shadow: var(--shadow-lg), 0 0 0 1px rgba(240, 192, 96, 0.15);
             border-color: #3a3545;
         }
-        .movie-card:active {
-            transform: scale(0.98);
-        }
 
         .movie-poster {
             position: relative;
@@ -481,7 +478,6 @@
             font-size: 0.95rem;
         }
 
-        /* 观影按钮 */
         .watch-btn {
             display: inline-flex;
             align-items: center;
@@ -592,4 +588,9 @@
             </div>
             <div class="search-box">
                 <input type="text" id="searchInput" placeholder="搜索电影名称、导演、类型..." oninput="handleSearch()">
-                <
+                <button class="search-btn" onclick="handleSearch()" aria-label="搜索">🔍</button>
+            </div>
+        </header>
+
+        <div class="category-tabs" id="categoryTabs">
+            <button class="cat-tag active" data-category
