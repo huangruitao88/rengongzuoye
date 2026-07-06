@@ -11,11 +11,11 @@ const movies = [
         country: '美国 / 英国',
         poster: 'https://picsum.photos/seed/interstellar/400/600',
         banner: 'https://picsum.photos/seed/interstellar-banner/900/400',
-        desc: '在地球资源逐渐枯竭的未来，前NASA宇航员库珀被选中参加一项穿越虫洞的星际任务，为人类寻找新的家园。诺兰以严谨的科学态度与宏大的视觉奇观，呈现了一部关于爱与时间的太空史诗。',
+        desc: '在地球资源逐渐枯竭的未来，前NASA宇航员库珀被选中参加一项穿越虫洞的星际任务，为人类寻找新的家园。在浩瀚宇宙与时间扭曲中，父女之间的情感成为跨越维度的纽带。诺兰以严谨的科学态度与宏大的视觉奇观，呈现了一部关于爱与时间的太空史诗。',
         tags: ['太空', '时间旅行', '亲情', '硬科幻'],
         highlight: { 'IMDb': '8.7', '豆瓣': '9.4', '奥斯卡': '最佳视觉效果' },
-        watchUrl: 'https://www.iqiyi.com/v_19rrn6k5qw.html',
-        trailerUrl: 'https://www.bilibili.com/video/BV1Rs411y7zD'
+        watchUrl: '',
+        trailerUrl: ''
     },
     {
         id: 2,
@@ -29,10 +29,10 @@ const movies = [
         country: '美国',
         poster: 'https://picsum.photos/seed/shawshank/400/600',
         banner: 'https://picsum.photos/seed/shawshank-banner/900/400',
-        desc: '银行家安迪因被误判谋杀妻子而关进肖申克监狱。在漫长的牢狱生涯中，他用智慧与毅力赢得了尊重，也悄然筹划着惊天越狱。影片深刻探讨了希望、自由与救赎的力量。',
+        desc: '银行家安迪因被误判谋杀妻子而关进肖申克监狱。在漫长的牢狱生涯中，他用智慧与毅力赢得了尊重，也悄然筹划着惊天越狱。影片深刻探讨了希望、自由与救赎的力量，被誉为影史最伟大的电影之一。',
         tags: ['监狱', '希望', '友情', '经典'],
         highlight: { 'IMDb': '9.3', '豆瓣': '9.7', '地位': '影史TOP1' },
-        watchUrl: 'https://v.qq.com/x/cover/3s7g6u7t8p9q0r1.html',
+        watchUrl: '',
         trailerUrl: ''
     },
     {
@@ -47,10 +47,10 @@ const movies = [
         country: '日本',
         poster: 'https://picsum.photos/seed/yourname/400/600',
         banner: 'https://picsum.photos/seed/yourname-banner/900/400',
-        desc: '生活在乡下的三叶与东京高中生泷，在某天醒来后发现自己与对方互换了身体。新海诚用绝美画面讲述了一段跨越时空的纯爱故事。',
+        desc: '生活在乡下的三叶与东京高中生泷，在某天醒来后发现自己与对方互换了身体。两人在适应对方生活的过程中逐渐产生情愫，却发现彼此之间横亘着时空的阻隔。新海诚用绝美画面讲述了一段跨越时空的纯爱故事。',
         tags: ['纯爱', '时空', '青春', '催泪'],
         highlight: { '豆瓣': '8.8', '票房': '全球3.6亿美元', '导演': '新海诚代表作' },
-        watchUrl: 'https://www.bilibili.com/bangumi/play/ep267851',
+        watchUrl: '',
         trailerUrl: ''
     },
     {
@@ -65,10 +65,10 @@ const movies = [
         country: '美国 / 英国',
         poster: 'https://picsum.photos/seed/inception/400/600',
         banner: 'https://picsum.photos/seed/inception-banner/900/400',
-        desc: '道姆·柯布是一名技艺高超的"盗梦者"，能够潜入他人梦境窃取机密。层层嵌套的梦境、令人窒息的悬念，诺兰再次挑战观众的大脑极限。',
+        desc: '道姆·柯布是一名技艺高超的"盗梦者"，能够潜入他人梦境窃取机密。他接到一项看似不可能的任务——在目标人物的潜意识中植入一个想法。层层嵌套的梦境、令人窒息的悬念，诺兰再次挑战观众的大脑极限。',
         tags: ['梦境', '悬疑', '动作', '烧脑'],
         highlight: { 'IMDb': '8.8', '豆瓣': '9.3', '奥斯卡': '4项大奖' },
-        watchUrl: 'https://v.qq.com/x/cover/1q2w3e4r5t6y7u8.html',
+        watchUrl: '',
         trailerUrl: ''
     },
     {
@@ -83,10 +83,10 @@ const movies = [
         country: '美国',
         poster: 'https://picsum.photos/seed/titanic/400/600',
         banner: 'https://picsum.photos/seed/titanic-banner/900/400',
-        desc: '1912年，穷画家杰克与贵族少女露丝在泰坦尼克号上相遇相恋。这段跨越阶级的爱情故事成为影史永恒的经典。',
+        desc: '1912年，穷画家杰克与贵族少女露丝在泰坦尼克号上相遇相恋。当巨轮撞上冰山沉没时，杰克把生的机会留给了露丝。这段跨越阶级的爱情故事，伴随着席琳·迪翁的歌声，成为影史永恒的经典。',
         tags: ['灾难', '浪漫', '经典', '史诗'],
         highlight: { 'IMDb': '7.9', '豆瓣': '9.1', '奥斯卡': '11项大奖' },
-        watchUrl: 'https://www.iqiyi.com/v_19rrn6k5qw.html',
+        watchUrl: '',
         trailerUrl: ''
     },
     {
@@ -101,10 +101,10 @@ const movies = [
         country: '美国',
         poster: 'https://picsum.photos/seed/zootopia/400/600',
         banner: 'https://picsum.photos/seed/zootopia-banner/900/400',
-        desc: '小兔子朱迪实现了当警察的梦想，与狐狸尼克搭档破获了一桩神秘案件。迪士尼用欢乐动画传递深刻社会议题。',
+        desc: '在动物城这个哺乳动物和谐共处的现代都市里，小兔子朱迪实现了当警察的梦想。她与狐狸尼克搭档破获了一桩神秘案件，揭开了城市背后关于偏见与包容的真相。迪士尼用欢乐动画传递深刻社会议题。',
         tags: ['冒险', '喜剧', '社会', '迪士尼'],
         highlight: { '豆瓣': '8.9', '奥斯卡': '最佳动画长片', '票房': '全球10亿美元' },
-        watchUrl: 'https://v.qq.com/x/cover/9o8i7u6y5t4r3e2.html',
+        watchUrl: '',
         trailerUrl: ''
     },
     {
@@ -119,10 +119,10 @@ const movies = [
         country: '西班牙',
         poster: 'https://picsum.photos/seed/contratiempo/400/600',
         banner: 'https://picsum.photos/seed/contratiempo-banner/900/400',
-        desc: '成功企业家阿德里安被指控谋杀情人，在开庭前夜的对话中，真相与谎言层层交织。西班牙悬疑片的巅峰之作。',
+        desc: '成功企业家阿德里安被指控谋杀情人，他请来顶级律师为自己辩护。在开庭前夜的对话中，真相与谎言层层交织，每一个细节都暗藏伏笔。西班牙悬疑片的巅峰之作，反转再反转，让人拍案叫绝。',
         tags: ['反转', '犯罪', '推理', '西班牙'],
         highlight: { '豆瓣': '9.0', 'IMDb': '8.1', '口碑': '悬疑神作' },
-        watchUrl: 'https://www.iqiyi.com/v_19rrn6k5qw.html',
+        watchUrl: '',
         trailerUrl: ''
     },
     {
@@ -137,7 +137,7 @@ const movies = [
         country: '美国 / 德国',
         poster: 'https://picsum.photos/seed/bourne/400/600',
         banner: 'https://picsum.photos/seed/bourne-banner/900/400',
-        desc: '一名失忆的男子被渔民从海中救起，在追寻身份的过程中发现自己拥有惊人的格斗技能。重新定义了现代间谍动作片的标杆。',
+        desc: '一名失忆的男子被渔民从海中救起，身上唯一的线索是一个瑞士银行保险箱号码。在追寻身份的过程中，他发现自己拥有惊人的格斗技能，而CIA正对他展开全球追杀。重新定义了现代间谍动作片的标杆之作。',
         tags: ['间谍', '失忆', '追车', '近身格斗'],
         highlight: { 'IMDb': '7.9', '豆瓣': '8.6', '系列': '五部曲开篇' },
         watchUrl: '',
@@ -155,10 +155,10 @@ const movies = [
         country: '美国',
         poster: 'https://picsum.photos/seed/truman/400/600',
         banner: 'https://picsum.photos/seed/truman-banner/900/400',
-        desc: '楚门从出生起就生活在一个巨大的摄影棚中，当他决心冲破虚假的牢笼时，全世界都在注视着他。对媒体时代的深刻寓言。',
+        desc: '楚门从出生起就生活在一个巨大的摄影棚中，他的一切都是被设计好的真人秀。当他开始怀疑世界的真实性，决心冲破虚假的牢笼时，全世界都在注视着他。金·凯瑞的演技巅峰，对媒体时代的深刻寓言。',
         tags: ['讽刺', '自由', '媒体', '经典'],
         highlight: { 'IMDb': '8.2', '豆瓣': '9.2', '意义': '媒体批判经典' },
-        watchUrl: 'https://v.qq.com/x/cover/5t4r3e2w1q0o9i8.html',
+        watchUrl: '',
         trailerUrl: ''
     },
     {
@@ -173,10 +173,10 @@ const movies = [
         country: '中国香港',
         poster: 'https://picsum.photos/seed/kungfuhustle/400/600',
         banner: 'https://picsum.photos/seed/kungfuhustle-banner/900/400',
-        desc: '小混混阿星误闯猪笼城寨，意外卷入了斧头帮与隐藏高手之间的对决。周星驰将无厘头喜剧与功夫元素完美融合。',
+        desc: '小混混阿星误闯猪笼城寨，意外卷入了斧头帮与隐藏高手之间的对决。周星驰将无厘头喜剧与功夫元素完美融合，创造出华语电影史上最具想象力的动作喜剧。包租婆、火云邪神等角色已成为文化符号。',
         tags: ['功夫', '无厘头', '周星驰', '华语经典'],
         highlight: { '豆瓣': '8.8', 'IMDb': '7.7', '金像奖': '最佳影片' },
-        watchUrl: 'https://www.iqiyi.com/v_19rrn6k5qw.html',
+        watchUrl: '',
         trailerUrl: ''
     },
     {
@@ -191,10 +191,10 @@ const movies = [
         country: '日本',
         poster: 'https://picsum.photos/seed/spiritedaway/400/600',
         banner: 'https://picsum.photos/seed/spiritedaway-banner/900/400',
-        desc: '少女千寻误入神灵世界，为了拯救变成猪的父母，在汤屋中经历了成长与勇气的考验。宫崎骏的巅峰之作。',
+        desc: '少女千寻随父母误入神灵世界，父母因贪吃变成了猪。为了拯救家人，千寻在汤屋中工作，经历了成长与勇气的考验。宫崎骏的巅峰之作，荣获奥斯卡最佳动画长片，每一帧都充满奇幻与温情。',
         tags: ['奇幻', '成长', '宫崎骏', '奥斯卡'],
         highlight: { '豆瓣': '9.4', '奥斯卡': '最佳动画长片', '票房': '日本影史冠军' },
-        watchUrl: 'https://www.bilibili.com/bangumi/play/ep90876',
+        watchUrl: '',
         trailerUrl: ''
     },
     {
@@ -209,10 +209,10 @@ const movies = [
         country: '美国',
         poster: 'https://picsum.photos/seed/lalaland/400/600',
         banner: 'https://picsum.photos/seed/lalaland-banner/900/400',
-        desc: '爵士钢琴家塞巴斯蒂安与怀揣演员梦的米娅在洛杉矶相遇相恋，追梦路上彼此鼓励，也面临现实与理想的抉择。',
+        desc: '在洛杉矶，爵士钢琴家塞巴斯蒂安与怀揣演员梦的米娅相遇相爱。他们在追梦路上彼此鼓励，却也面临着现实与理想的抉择。一段令人心醉又心碎的爱情故事，用歌舞与色彩致敬了好莱坞黄金时代。',
         tags: ['歌舞', '梦想', '浪漫', '奥斯卡'],
         highlight: { '豆瓣': '8.4', '奥斯卡': '6项大奖', '配乐': '经典原声' },
-        watchUrl: 'https://v.qq.com/x/cover/8u7y6t5r4e3w2q1.html',
+        watchUrl: '',
         trailerUrl: ''
     },
     {
@@ -227,10 +227,10 @@ const movies = [
         country: '美国',
         poster: 'https://picsum.photos/seed/fightclub/400/600',
         banner: 'https://picsum.photos/seed/fightclub-banner/900/400',
-        desc: '一个饱受失眠折磨的白领遇到了肥皂商人泰勒，两人创立了一个秘密的地下搏击俱乐部。大卫·芬奇的cult经典。',
+        desc: '一个饱受失眠折磨的白领遇到了肥皂商人泰勒，两人创立了一个秘密的地下搏击俱乐部。随着俱乐部规模不断扩大，事情逐渐走向失控。大卫·芬奇的cult经典，对消费主义和现代男性困境的锋利剖析。',
         tags: ['心理', '反转', 'cult', '大卫·芬奇'],
         highlight: { 'IMDb': '8.8', '豆瓣': '9.0', '风格': 'Cult经典' },
-        watchUrl: 'https://www.iqiyi.com/v_19rrn6k5qw.html',
+        watchUrl: '',
         trailerUrl: ''
     },
     {
@@ -245,10 +245,10 @@ const movies = [
         country: '美国',
         poster: 'https://picsum.photos/seed/furious7/400/600',
         banner: 'https://picsum.photos/seed/furious7-banner/900/400',
-        desc: '多米尼克一家面临最危险的对手，从阿布扎比摩天大楼间的飞车到洛杉矶街头的决战。片尾对保罗·沃克的致敬让无数观众泪目。',
+        desc: '多米尼克一家面临最危险的对手——德卡特·肖。从阿布扎比摩天大楼间的飞车穿越，到洛杉矶街头的终极决战，动作场面不断升级。片尾对保罗·沃克的致敬让无数观众泪目。',
         tags: ['赛车', '动作', '情怀', '保罗·沃克'],
         highlight: { '豆瓣': '8.0', '票房': '全球15亿美元', '主题曲': 'See You Again' },
-        watchUrl: 'https://v.qq.com/x/cover/1a2b3c4d5e6f7g8h.html',
+        watchUrl: '',
         trailerUrl: ''
     },
     {
@@ -263,10 +263,10 @@ const movies = [
         country: '中国大陆',
         poster: 'https://picsum.photos/seed/letbulletsfly/400/600',
         banner: 'https://picsum.photos/seed/letbulletsfly-banner/900/400',
-        desc: '悍匪张牧之劫了马拉火车，冒充县长赴鹅城上任，与恶霸黄四郎展开斗智斗勇的较量。姜文用黑色幽默拍出了一部华语神作。',
+        desc: '北洋年间，悍匪张牧之劫了马拉火车，冒充县长赴鹅城上任。他与当地恶霸黄四郎展开了一场斗智斗勇的较量。姜文用黑色幽默与凌厉节奏，拍出了一部让观众反复解读的华语神作。',
         tags: ['黑色幽默', '西部', '姜文', '华语神作'],
         highlight: { '豆瓣': '9.0', '台词': '经典无数', '风格': '站着把钱挣了' },
-        watchUrl: 'https://www.iqiyi.com/v_19rrn6k5qw.html',
+        watchUrl: '',
         trailerUrl: ''
     }
 ];
